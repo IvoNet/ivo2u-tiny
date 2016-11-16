@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html data-ng-app="Tiny">
+<head>
+    <title>Ivo2U.nl</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="Ivo2U links">
+    <meta name="author" content="Ivo Woltring">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+          integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <style type="text/css">
+        body {
+            padding-top: 3px;
+        }
+
+        .theme-showcase > p > .btn {
+            margin: 5px 0;
+        }
+
+        .theme-showcase .navbar .container {
+            width: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .tooltipped {
+            position: relative
+        }
+
+        .tooltipped:after {
+            position: absolute;
+            z-index: 1000000;
+            display: none;
+            padding: 5px 8px;
+            font: normal normal 11px / 1.5 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            text-shadow: none;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: break-word;
+            white-space: pre;
+            pointer-events: none;
+            content: attr(aria-label);
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 3px;
+            -webkit-font-smoothing: subpixel-antialiased
+        }
+
+        .tooltipped:before {
+            position: absolute;
+            z-index: 1000001;
+            display: none;
+            width: 0;
+            height: 0;
+            color: rgba(0, 0, 0, 0.8);
+            pointer-events: none;
+            content: "";
+            border: 5px solid transparent
+        }
+
+        .tooltipped:hover:before, .tooltipped:hover:after, .tooltipped:active:before,
+        .tooltipped:active:after, .tooltipped:focus:before, .tooltipped:focus:after {
+            display: inline-block;
+            text-decoration: none
+        }
+
+        .tooltipped-multiline:hover:after, .tooltipped-multiline:active:after,
+        .tooltipped-multiline:focus:after {
+            display: table-cell
+        }
+
+        .tooltipped-s:after, .tooltipped-se:after, .tooltipped-sw:after {
+            top: 100%;
+            right: 50%;
+            margin-top: 5px
+        }
+
+        .tooltipped-s:before, .tooltipped-se:before, .tooltipped-sw:before {
+            top: auto;
+            right: 50%;
+            bottom: -5px;
+            margin-right: -5px;
+            border-bottom-color: rgba(0, 0, 0, 0.8)
+        }
+
+        .tooltipped-se:after {
+            right: auto;
+            left: 50%;
+            margin-left: -15px
+        }
+
+        .tooltipped-sw:after {
+            margin-right: -15px
+        }
+
+        .tooltipped-n:after, .tooltipped-ne:after, .tooltipped-nw:after {
+            right: 50%;
+            bottom: 100%;
+            margin-bottom: 5px
+        }
+
+        .tooltipped-n:before, .tooltipped-ne:before, .tooltipped-nw:before {
+            top: -5px;
+            right: 50%;
+            bottom: auto;
+            margin-right: -5px;
+            border-top-color: rgba(0, 0, 0, 0.8)
+        }
+
+        .tooltipped-ne:after {
+            right: auto;
+            left: 50%;
+            margin-left: -15px
+        }
+
+        .tooltipped-nw:after {
+            margin-right: -15px
+        }
+
+        .tooltipped-s:after, .tooltipped-n:after {
+            -webkit-transform: translateX(50%);
+            -ms-transform: translateX(50%);
+            transform: translateX(50%)
+        }
+
+        .tooltipped-w:after {
+            right: 100%;
+            bottom: 50%;
+            margin-right: 5px;
+            -webkit-transform: translateY(50%);
+            -ms-transform: translateY(50%);
+            transform: translateY(50%)
+        }
+
+        .tooltipped-w:before {
+            top: 50%;
+            bottom: 50%;
+            left: -5px;
+            margin-top: -5px;
+            border-left-color: rgba(0, 0, 0, 0.8)
+        }
+
+        .tooltipped-e:after {
+            bottom: 50%;
+            left: 100%;
+            margin-left: 5px;
+            -webkit-transform: translateY(50%);
+            -ms-transform: translateY(50%);
+            transform: translateY(50%)
+        }
+
+        .tooltipped-e:before {
+            top: 50%;
+            right: -5px;
+            bottom: 50%;
+            margin-top: -5px;
+            border-right-color: rgba(0, 0, 0, 0.8)
+        }
+
+        .tooltipped-multiline:after {
+            width: -webkit-max-content;
+            width: -moz-max-content;
+            width: max-content;
+            max-width: 250px;
+            word-break: break-word;
+            word-wrap: normal;
+            white-space: pre-line;
+            border-collapse: separate
+        }
+
+        .tooltipped-multiline.tooltipped-s:after, .tooltipped-multiline.tooltipped-n:after {
+            right: auto;
+            left: 50%;
+            -webkit-transform: translateX(-50%);
+            -ms-transform: translateX(-50%);
+            transform: translateX(-50%)
+        }
+
+        .tooltipped-multiline.tooltipped-w:after, .tooltipped-multiline.tooltipped-e:after {
+            right: 100%
+        }
+
+        @media screen and (min-width: 0\0
+        ) {
+            .tooltipped-multiline:after {
+                width: 250px
+            }
+        }
+
+        .tooltipped-sticky:before, .tooltipped-sticky:after {
+            display: inline-block
+        }
+
+        .tooltipped-sticky.tooltipped-multiline:after {
+            display: table-cell
+        }
+
+        .fullscreen-overlay-enabled.dark-theme .tooltipped:after {
+            color: #000;
+            background: rgba(255, 255, 255, 0.8)
+        }
+
+        .fullscreen-overlay-enabled.dark-theme .tooltipped .tooltipped-s:before,
+        .fullscreen-overlay-enabled.dark-theme .tooltipped .tooltipped-se:before,
+        .fullscreen-overlay-enabled.dark-theme .tooltipped .tooltipped-sw:before {
+            border-bottom-color: rgba(255, 255, 255, 0.8)
+        }
+
+        .fullscreen-overlay-enabled.dark-theme .tooltipped.tooltipped-n:before,
+        .fullscreen-overlay-enabled.dark-theme .tooltipped.tooltipped-ne:before,
+        .fullscreen-overlay-enabled.dark-theme .tooltipped.tooltipped-nw:before {
+            border-top-color: rgba(255, 255, 255, 0.8)
+        }
+
+        .fullscreen-overlay-enabled.dark-theme .tooltipped.tooltipped-e:before {
+            border-right-color: rgba(255, 255, 255, 0.8)
+        }
+
+        .fullscreen-overlay-enabled.dark-theme .tooltipped.tooltipped-w:before {
+            border-left-color: rgba(255, 255, 255, 0.8)
+        }
+    </style>
+</head>
+<body role="document">
+<div ng-controller="TinyController as tiny">
+
+    <div class="container theme-showcase" role="main">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Ivo2U</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form name="myForm" ng-submit="tiny.submit()" role="form">
+                            <div class="form-group">
+                                <input type="text"
+                                       ng-model="tiny.url"
+                                       name="url"
+                                       class="form-control"
+                                       required="required"
+                                       ng-required="true"
+                                       ng-pattern="/\b((?:[Hh][Tt][Tt][Pp][Ss]?)://[\w/#~:.?+=&%@!\-]+?)(?=[.:?\-]*(?:[^\w/#~:.?+=&%@!\-]|$))/"
+                                />
+                            </div>
+                            <div class="form-group">
+                                <input class="btn btn-primary" type="submit" value="Submit"
+                                       ng-disabled="tiny.url.length==0 || !myForm.url.$valid"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="panel panel-default" ng-show="tiny.data.length>0">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Result</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div>
+                            <div class="form-group">
+                                <input id="copyUrl" value="{{tiny.data}}" class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" ngclipboard ngclipboard-success="tiny.onSuccess(e);"
+                                        ngclipboard-error="tiny.onError(e);" data-clipboard-action="copy"
+                                        data-clipboard-target="#copyUrl">
+                                    Copy 2 Clipboard
+                                </button>
+                                &nbsp;<a href="{{tiny.data}}" target="_blank" ng-hide="tiny.data.length==0">{{tiny.data}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default" ng-controller="Popular as top">
+                    <div class="panel-heading" ng-click="top.getPopular()">
+                        <h3 class="panel-title">Top 5 <a href="http://ivo2u.nl/lucky"
+                                                         class="btn btn-xs btn-default pull-right" target="_blank">I'm
+                            Feeling Lucky</a></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div>
+                            <table>
+                                <tbody>
+                                <tr ng-repeat="token in top.data.tokens">
+                                    <td>
+                                        <a href="{{token.tinyUrl}}" target="_blank">{{token.destinationUrl |
+                                            max_url}}</a>
+                                    </td>
+                                    <td>{{token.counter}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default" ng-show="tiny.disclaimer">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Terms of use</h3>
+                    </div>
+                    <div class="panel-body">
+                        Ivo2U was created as a free service to make posting long URLs easier, and may only be used for
+                        actual URLs. Using it for spamming or illegal purposes is forbidden and any such use will result
+                        in the url being disabled and you may be reported to all ISPs involved and to the proper
+                        governmental agencies. This service is provided without warranty of any kind.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.rawgit.com/zenorocha/clipboard.js/master/dist/clipboard.min.js"></script>
+<script type="text/javascript">
+
+    (function () {
+        'use strict';
+        var MODULE_NAME = 'ngclipboard';
+        var angular, Clipboard;
+
+        if (typeof module !== 'undefined' && typeof module.exports === 'object') {
+            angular = require('angular');
+            Clipboard = require('clipboard');
+            module.exports = MODULE_NAME;
+        } else {
+            angular = window.angular;
+            Clipboard = window.Clipboard;
+        }
+
+        angular.module(MODULE_NAME, []).directive('ngclipboard', function () {
+            return {
+                restrict: 'A',
+                scope: {
+                    ngclipboardSuccess: '&',
+                    ngclipboardError: '&'
+                },
+                link: function (scope, element) {
+                    var clipboard = new Clipboard(element[0]);
+
+                    clipboard.on('success', function (e) {
+                        scope.ngclipboardSuccess({
+                            e: e
+                        });
+                    });
+
+                    clipboard.on('error', function (e) {
+                        scope.ngclipboardError({
+                            e: e
+                        });
+                    });
+                }
+            };
+        });
+    }());
+
+    (function () {
+        angular.module('Tiny', ['ngclipboard']);
+        angular.module('Tiny').controller("Popular", Popular);
+
+        Popular.$inject = [
+            '$http'
+        ];
+
+        function Popular($http) {
+            var vm = this;
+
+            vm.getPopular = function () {
+                $http({
+                    url: 'http://ivo2u.nl/popular',
+                    method: "GET",
+                    headers: {'Accept': 'application/json'}
+                }).success(function (data, status, headers, config) {
+                    vm.data = data;
+                }).error(function (data, status, headers, config) {
+                    vm.data = status;
+                });
+            };
+
+            vm.getPopular();
+        }
+
+        angular.module('Tiny').controller("TinyController", TinyController).filter('max_url', [
+            '$window',
+            function ($window) {
+                return function (str) {
+                    var n = 120;
+                    if ($window.innerWidth <= 320) {
+                        n = 25;
+                    } else if ($window.innerWidth <= 375) {
+                        n = 32;
+                    } else if ($window.innerWidth <= 414) {
+                        n = 40;
+                    } else if ($window.innerWidth <= 768) {
+                        n = 65;
+                    } else if ($window.innerWidth <= 800) {
+                        n = 70;
+                    }
+                    return str.length > n ? str.substr(0, n - 1) + '...' : str;
+                }
+            }
+        ]);
+        TinyController.$inject = [
+            '$http'
+        ];
+        function TinyController($http) {
+            var vm = this;
+            vm.url = "";
+            vm.data = "";
+            vm.disclaimer = false;
+
+            vm.disclaimer = function () {
+                vm.disclaimer = !vm.disclaimer;
+            };
+
+            vm.submit = function () {
+                $http({
+                    url: 'http://ivo2u.nl/api/',
+                    method: "POST",
+                    data: vm.url,
+                    headers: {'Content-Type': 'text/plain', 'Accept': 'text/plain'}
+                }).success(function (data, status, headers, config) {
+                    vm.data = data;
+                    vm.url = "";
+                }).error(function (data, status, headers, config) {
+                    vm.data = status;
+                });
+            };
+
+            vm.onSuccess = function (e) {
+                e.clearSelection();
+                showTooltip(e.trigger, 'Copied!');
+            };
+
+            vm.onError = function (e) {
+                showTooltip(e.trigger, fallbackMessage(e.action));
+            };
+
+            function showTooltip(elem, msg) {
+                elem.setAttribute('class', 'btn btn-primary tooltipped tooltipped-s');
+                elem.setAttribute('aria-label', msg);
+            }
+
+            function fallbackMessage(action) {
+                var actionMsg = '';
+                var actionKey = (action === 'cut' ? 'X' : 'C');
+
+                if (/iPhone|iPad/i.test(navigator.userAgent)) {
+                    actionMsg = 'No support :(';
+                }
+                else if (/Mac/i.test(navigator.userAgent)) {
+                    actionMsg = 'Press cmd-' + actionKey + ' to ' + action;
+                }
+                else {
+                    actionMsg = 'Press Ctrl-' + actionKey + ' to ' + action;
+                }
+                return actionMsg;
+            }
+        }
+    })();
+
+</script>
+
+</body>
+</html>

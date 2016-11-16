@@ -18,11 +18,29 @@ package nl.ivo2u.tiny;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
+import org.springframework.boot.web.servlet.ErrorPage;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
 
 @SpringBootApplication
 public class Ivo2uTinyApplication {
 
-    public static void main(String[] args) {
+    @Bean
+    public EmbeddedServletContainerCustomizer containerCustomizer() {
+
+       return (container -> {
+            final ErrorPage error204Page = new ErrorPage(HttpStatus.NO_CONTENT, "/error/204.html");
+            final ErrorPage error403Page = new ErrorPage(HttpStatus.FORBIDDEN, "/error/403.html");
+            final ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/error/404.html");
+            final ErrorPage error406Page = new ErrorPage(HttpStatus.NOT_ACCEPTABLE, "/error/406.html");
+            final ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/error/error.html");
+
+            container.addErrorPages(error204Page, error403Page, error404Page, error406Page, error500Page);
+       });
+    }
+
+    public static void main(final String[] args) {
         SpringApplication.run(Ivo2uTinyApplication.class, args);
     }
 }

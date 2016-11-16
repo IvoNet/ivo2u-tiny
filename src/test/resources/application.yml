@@ -11,7 +11,7 @@ spring:
       enabled: true
       path: /h2
   datasource:
-    url: jdbc:h2:file:~/dev/ivonet-applications/ivo2u-tiny/db/h2-tiny
+    url: jdbc:h2:file:~/dev/ivonet-applications/ivo2u-tiny/target/db/h2-tiny
     username: sa
     password:
     driver-class-name: org.h2.Driver
@@ -26,17 +26,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-    show-sql: true
-  data:
-    jpa:
-      repositories:
-        enabled: true
 
 flyway:
   baseline-on-migrate: true
 
 datasource.flyway:
-    url: jdbc:h2:file:~/dev/ivonet-applications/ivo2u-tiny/db/h2-tiny
+    url: jdbc:h2:file:~/dev/ivonet-applications/ivo2u-tiny/target/db/h2-tiny
     username: sa
     password:
     driver-class-name: org.h2.Driver
