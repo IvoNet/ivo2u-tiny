@@ -30,7 +30,7 @@ public class Token {
     @XmlElement
     private URI tinyUrl;
     @XmlElement
-    private Integer id;
+    private Long id;
     @XmlElement
     private String destinationUrl;
     @XmlElement
@@ -53,7 +53,7 @@ public class Token {
         return this.tinyUrl;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 

@@ -16,55 +16,58 @@
 
 package nl.ivo2u.tiny.model;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Calendar;
 
 
 @Entity
-//@XmlRootElement
-//@NamedQueries({
-//        @NamedQuery(name = "Tiny.findById", query = "SELECT t FROM Tiny t WHERE t.id = :id"),
-//        @NamedQuery(name = "Tiny.findByUrl", query = "SELECT t FROM Tiny t WHERE t.url = :url"),
-//        @NamedQuery(name = "Tiny.updateCounter", query = "UPDATE Tiny t SET t.counter = (t.counter + 1) WHERE t.id = :id"),
-//        @NamedQuery(name = "Tiny.popular", query = "SELECT t FROM Tiny t ORDER BY t.counter DESC"),
-//        @NamedQuery(name = "Tiny.maxId", query = "SELECT MAX(t.id) FROM Tiny t"),
-//        @NamedQuery(name = "Tiny.lucky", query = "SELECT t FROM Tiny t WHERE t.id >= :seed")
-//})
+@XmlRootElement
+@NamedQueries({
+        @NamedQuery(name = "Tiny.findById", query = "SELECT t FROM Tiny t WHERE t.id = :id"),
+        @NamedQuery(name = "Tiny.findByUrl", query = "SELECT t FROM Tiny t WHERE t.url = :url"),
+        @NamedQuery(name = "Tiny.updateCounter", query = "UPDATE Tiny t SET t.counter = (t.counter + 1) WHERE t.id = :id"),
+        @NamedQuery(name = "Tiny.popular", query = "SELECT t FROM Tiny t ORDER BY t.counter DESC"),
+        @NamedQuery(name = "Tiny.maxId", query = "SELECT MAX(t.id) FROM Tiny t"),
+        @NamedQuery(name = "Tiny.lucky", query = "SELECT t FROM Tiny t WHERE t.id >= :seed")
+})
+@Table
 public class Tiny {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @XmlAttribute
-    private Integer id;
+    private Long id;
 
-    @XmlElement
     @Column(length = 4242)
     @NotNull
     private String url;
 
-    @XmlElement
     @NotNull
     private Long counter = 0L;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="creation_date", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable=false, updatable=false)
+//    @Column(name="creation_date", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable=false, updatable=false)
+    @CreatedDate
     private Calendar creationDate;
 
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(final Integer id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -80,8 +83,15 @@ public class Tiny {
         return this.counter;
     }
 
+    public void setCounter(final Long counter) {
+        this.counter = counter;
+    }
+
     public Calendar getCreationDate() {
         return this.creationDate;
     }
 
+    public void setCreationDate(final Calendar creationDate) {
+        this.creationDate = creationDate;
+    }
 }

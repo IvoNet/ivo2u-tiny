@@ -20,14 +20,16 @@ import nl.ivo2u.tiny.model.Tiny;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  *
  */
 @Repository
-public interface TinyRepository extends JpaRepository<Tiny, Integer> {
+public interface TinyRepository extends JpaRepository<Tiny, Long> {
 
-//    Tiny findByUrlFirst(String url);
+    Tiny readDistinctByUrl(String url);
 
-
+    List<Tiny> findTop5ByOrderByCounterDesc();
 
 }

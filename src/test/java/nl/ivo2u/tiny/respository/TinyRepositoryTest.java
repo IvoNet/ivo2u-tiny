@@ -20,27 +20,60 @@ import nl.ivo2u.tiny.model.Tiny;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 /**
  *
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@DataJpaTest
 public class TinyRepositoryTest {
 
+    private static final String HTTP_IVO_WAS_HERE_YUP = "http://IvoWasHere.yup";
     @Autowired
     private TinyRepository repository;
 
 
     @Test
-    public void findByUrl() throws Exception {
-        Tiny one = repository.findOne(1);
+    public void findOne() throws Exception {
+        final Tiny one = this.repository.findOne(1L);
         assertThat(one.getUrl(), is("http://ivonet.nl"));
     }
 
+    @Test
+    public void readDistinctByUrl() throws Exception {
+        final Tiny tiny = this.repository.readDistinctByUrl("http://ivonet.nl");
+        assertThat(tiny.getId(), is(1L));
+    }
+
+    @Test
+    public void createNew() throws Exception {
+        final Tiny tiny = new Tiny();
+        tiny.setUrl(HTTP_IVO_WAS_HERE_YUP);
+        assertNull(tiny.getId());
+        final Tiny ret = this.repository.saveAndFlush(tiny);
+        assertNotNull(ret.getId());
+
+        final Tiny one = this.repository.getOne(ret.getId());
+        assertThat(one.getUrl(), is(HTTP_IVO_WAS_HERE_YUP));
+        assertThat(one.getCounter(), is(0L));
+    }
+
+    @Test
+    public void top5() throws Exception {
+
+        List<Tiny> tinies = repository.findTop5ByOrderByCounterDesc();
+        assertThat(tinies.size(), is(5));
+        assertThat(tinies.get(0).getId(), is(98L));
+
+
+    }
 }
