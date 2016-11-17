@@ -16,33 +16,23 @@
 
 package nl.ivo2u.tiny.model;
 
-import org.springframework.data.annotation.CreatedDate;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Calendar;
+import java.util.Date;
 
 
 @Entity
 @XmlRootElement
-@NamedQueries({
-        @NamedQuery(name = "Tiny.findById", query = "SELECT t FROM Tiny t WHERE t.id = :id"),
-        @NamedQuery(name = "Tiny.findByUrl", query = "SELECT t FROM Tiny t WHERE t.url = :url"),
-        @NamedQuery(name = "Tiny.updateCounter", query = "UPDATE Tiny t SET t.counter = (t.counter + 1) WHERE t.id = :id"),
-        @NamedQuery(name = "Tiny.popular", query = "SELECT t FROM Tiny t ORDER BY t.counter DESC"),
-        @NamedQuery(name = "Tiny.maxId", query = "SELECT MAX(t.id) FROM Tiny t"),
-        @NamedQuery(name = "Tiny.lucky", query = "SELECT t FROM Tiny t WHERE t.id >= :seed")
-})
 @Table
 public class Tiny {
 
@@ -58,9 +48,8 @@ public class Tiny {
     private Long counter = 0L;
 
     @Temporal(TemporalType.TIMESTAMP)
-//    @Column(name="creation_date", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable=false, updatable=false)
-    @CreatedDate
-    private Calendar creationDate;
+    @Column(name="creation_date", updatable=false, nullable = false)
+    private Date creationDate;
 
 
     public Long getId() {
@@ -87,11 +76,33 @@ public class Tiny {
         this.counter = counter;
     }
 
-    public Calendar getCreationDate() {
+    public Date getCreationDate() {
         return this.creationDate;
     }
 
-    public void setCreationDate(final Calendar creationDate) {
+    public void setCreationDate(final Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Tiny{");
+        sb.append("id=")
+          .append(id);
+        sb.append(", url='")
+          .append(url)
+          .append('\'');
+        sb.append(", counter=")
+          .append(counter);
+        sb.append(", creationDate=")
+          .append(creationDate);
+        sb.append('}');
+        return sb.toString();
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.creationDate = Calendar.getInstance()
+                                    .getTime();
     }
 }

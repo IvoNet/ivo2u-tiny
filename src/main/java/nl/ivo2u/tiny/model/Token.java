@@ -19,7 +19,7 @@ package nl.ivo2u.tiny.model;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.net.URI;
-import java.util.Calendar;
+import java.util.Date;
 
 /**
  * @author Ivo Woltring
@@ -36,7 +36,7 @@ public class Token {
     @XmlElement
     private Long counter;
     @XmlElement
-    private Calendar creationDate;
+    private Date creationDate;
 
     public Token() {
     }
@@ -65,7 +65,7 @@ public class Token {
         return this.counter;
     }
 
-    public Calendar getCreationDate() {
+    public Date getCreationDate() {
         return this.creationDate;
     }
 }

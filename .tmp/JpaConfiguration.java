@@ -30,7 +30,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
+//@Configuration
 public class JpaConfiguration {
 
 	@Value("#{dataSource}")
@@ -60,8 +60,8 @@ public class JpaConfiguration {
 
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-		final LocalContainerEntityManagerFactoryBean lef = new LocalContainerEntityManagerFactoryBean();
-		lef.setDataSource(this.dataSource);
+        final LocalContainerEntityManagerFactoryBean lef = new LocalContainerEntityManagerFactoryBean();
+        lef.setDataSource(this.dataSource);
 		lef.setJpaPropertyMap(this.jpaProperties());
 		lef.setJpaVendorAdapter(this.jpaVendorAdapter());
 		return lef;

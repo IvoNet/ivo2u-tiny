@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package nl.ivo2u.tiny.respository;
+package nl.ivo2u.tiny.repository;
 
 import nl.ivo2u.tiny.model.Tiny;
 import org.junit.Test;
@@ -33,11 +33,13 @@ import static org.junit.Assert.assertNull;
 /**
  *
  */
+@SuppressWarnings("SpringJavaAutowiredMembersInspection")
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class TinyRepositoryTest {
 
     private static final String HTTP_IVO_WAS_HERE_YUP = "http://IvoWasHere.yup";
+
     @Autowired
     private TinyRepository repository;
 
@@ -59,21 +61,35 @@ public class TinyRepositoryTest {
         final Tiny tiny = new Tiny();
         tiny.setUrl(HTTP_IVO_WAS_HERE_YUP);
         assertNull(tiny.getId());
-        final Tiny ret = this.repository.saveAndFlush(tiny);
+        Tiny ret = this.repository.saveAndFlush(tiny);
         assertNotNull(ret.getId());
 
         final Tiny one = this.repository.getOne(ret.getId());
         assertThat(one.getUrl(), is(HTTP_IVO_WAS_HERE_YUP));
         assertThat(one.getCounter(), is(0L));
+
+
     }
 
     @Test
     public void top5() throws Exception {
-
-        List<Tiny> tinies = repository.findTop5ByOrderByCounterDesc();
+        final List<Tiny> tinies = this.repository.findTop5ByOrderByCounterDesc();
         assertThat(tinies.size(), is(5));
         assertThat(tinies.get(0).getId(), is(98L));
+    }
 
+    @Test
+    public void updateCounter() throws Exception {
+        Tiny one = this.repository.getOne(1L);
+        Long startCounter = one.getCounter();
+        this.repository.updateCounter(one.getId());
+        one = this.repository.getOne(1L);
+        assertThat(++startCounter, is(one.getCounter()));
+    }
 
+    @Test
+    public void maxId() throws Exception {
+        Long maxId = repository.getMaxId();
+        assertThat(maxId, is(155L));
     }
 }

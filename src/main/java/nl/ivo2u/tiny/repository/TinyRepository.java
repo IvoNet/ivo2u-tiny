@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package nl.ivo2u.tiny.respository;
+package nl.ivo2u.tiny.repository;
 
 import nl.ivo2u.tiny.model.Tiny;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- *
- */
 @Repository
 public interface TinyRepository extends JpaRepository<Tiny, Long> {
 
@@ -32,4 +32,12 @@ public interface TinyRepository extends JpaRepository<Tiny, Long> {
 
     List<Tiny> findTop5ByOrderByCounterDesc();
 
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE #{#entityName} t SET t.counter = (t.counter + 1) WHERE t.id = :id")
+    void updateCounter(@Param("id") Long id);
+
+    @Query("SELECT max(t.id) FROM #{#entityName} t")
+    Long getMaxId();
+
+    // TODO: 17-11-2016 Implement Lucky
 }
