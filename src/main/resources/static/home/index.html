@@ -280,17 +280,19 @@
                 </div>
                 <div class="panel panel-default" ng-controller="Popular as top">
                     <div class="panel-heading" ng-click="top.getPopular()">
-                        <h3 class="panel-title">Top 5 <a href="http://ivo2u.nl/lucky"
-                                                         class="btn btn-xs btn-default pull-right" target="_blank">I'm
-                            Feeling Lucky</a></h3>
+                        <h3 class="panel-title">Top 5
+                            <!--<a href="http://ivo2u.nl/lucky"-->
+                                                         <!--class="btn btn-xs btn-default pull-right" target="_blank">I'm-->
+                            <!--Feeling Lucky</a>-->
+                        </h3>
                     </div>
                     <div class="panel-body">
                         <div>
                             <table>
                                 <tbody>
-                                <tr ng-repeat="token in top.data.tokens">
+                                <tr ng-repeat="token in top.data">
                                     <td>
-                                        <a href="{{token.tinyUrl}}" target="_blank">{{token.destinationUrl |
+                                        <a href="{{token.url}}" target="_blank">{{token.url |
                                             max_url}}</a>
                                     </td>
                                     <td>{{token.counter}}</td>
@@ -377,7 +379,7 @@
 
             vm.getPopular = function () {
                 $http({
-                    url: '//popular',
+                    url: 'api/popular',
                     method: "GET",
                     headers: {'Accept': 'application/json'}
                 }).success(function (data, status, headers, config) {
@@ -425,7 +427,7 @@
 
             vm.submit = function () {
                 $http({
-                    url: '//api/',
+                    url: 'api/',
                     method: "POST",
                     data: vm.url,
                     headers: {'Content-Type': 'text/plain', 'Accept': 'text/plain'}

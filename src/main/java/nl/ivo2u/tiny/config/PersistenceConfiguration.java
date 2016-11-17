@@ -23,6 +23,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.vendor.Database;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 import javax.sql.DataSource;
 
@@ -47,5 +50,12 @@ public class PersistenceConfiguration {
         return DataSourceBuilder.create().build();
     }
 
-
+    @Bean
+   	public JpaVendorAdapter jpaVendorAdapter() {
+   		final HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
+   		hibernateJpaVendorAdapter.setShowSql(true);
+   		hibernateJpaVendorAdapter.setGenerateDdl(true);
+   		hibernateJpaVendorAdapter.setDatabase(Database.H2);
+   		return hibernateJpaVendorAdapter;
+   	}
 }

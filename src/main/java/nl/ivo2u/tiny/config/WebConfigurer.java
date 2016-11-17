@@ -16,14 +16,13 @@
 
 package nl.ivo2u.tiny.config;
 
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
  *
  */
-@Configuration
+//@Configuration
 public class WebConfigurer extends WebMvcConfigurerAdapter {
 
     @Override

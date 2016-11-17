@@ -18,7 +18,6 @@ package nl.ivo2u.tiny.model;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.net.URI;
 import java.util.Date;
 
 /**
@@ -28,7 +27,7 @@ import java.util.Date;
 public class Token {
 
     @XmlElement
-    private URI tinyUrl;
+    private String tinyUrl;
     @XmlElement
     private Long id;
     @XmlElement
@@ -41,7 +40,7 @@ public class Token {
     public Token() {
     }
 
-    public Token(final URI tinyUrl, final Tiny tiny) {
+    public Token(final String tinyUrl, final Tiny tiny) {
         this.tinyUrl = tinyUrl;
         this.id = tiny.getId();
         this.destinationUrl = tiny.getUrl();
@@ -49,7 +48,7 @@ public class Token {
         this.creationDate = tiny.getCreationDate();
     }
 
-    public URI getTinyUrl() {
+    public String getTinyUrl() {
         return this.tinyUrl;
     }
 
