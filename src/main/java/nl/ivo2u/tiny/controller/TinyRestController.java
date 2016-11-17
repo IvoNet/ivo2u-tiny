@@ -45,12 +45,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 @RequestMapping("/api")
 public class TinyRestController {
 
-    @Autowired
-    private TinyUrl tinyUrl;
+    private final TinyUrl tinyUrl;
+    private final TinyRepository tinyRepository;
 
     @Autowired
-    private TinyRepository tinyRepository;
-
+    public TinyRestController(final TinyUrl tinyUrl, final TinyRepository tinyRepository) {
+        this.tinyUrl = tinyUrl;
+        this.tinyRepository = tinyRepository;
+    }
 
 
     @GetMapping(value = "popular", produces = APPLICATION_JSON_UTF8_VALUE)
