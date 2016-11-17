@@ -27,8 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestAttributes;
@@ -36,6 +36,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
@@ -66,13 +67,17 @@ public class TinyRestController {
     }
 
     @PostMapping(produces = MediaType.TEXT_PLAIN_VALUE)
-    public String api(@ModelAttribute("url") final String url, final HttpServletRequest request) {
+    public String api(@RequestBody final String body, final HttpServletRequest request)
+            throws UnsupportedEncodingException {
+
+        final String url = java.net.URLDecoder.decode(body.endsWith("=") ? body.substring(0, body.length() - 1) : body,
+                                                      "UTF-8");
         if (url.isEmpty() || isWrongUrl(url) || url.contains(request.getServerName())) {
             return "The request was wrong in some way... Please try again.";
         }
-
         return createUrl(url);
     }
+
 
     private String createUrl(final String url) {
         Tiny tiny = this.tinyRepository.readDistinctByUrl(url);
@@ -86,7 +91,8 @@ public class TinyRestController {
     }
 
     private String makeUrl(final Long id) {
-        return "http://" + getCurrentRequest().getRemoteHost() + "/" + this.tinyUrl.encode(id);
+        String port = (getCurrentRequest().getServerPort() == 80) ? "" : (":" + getCurrentRequest().getServerPort());
+        return "http://" + getCurrentRequest().getServerName() + port + "/" + this.tinyUrl.encode(id);
     }
 
     private boolean isWrongUrl(final String url) {

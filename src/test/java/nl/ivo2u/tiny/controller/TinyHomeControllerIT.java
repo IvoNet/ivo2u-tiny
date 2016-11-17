@@ -46,13 +46,13 @@ public class TinyHomeControllerIT {
 
     @Test
     public void index() throws Exception {
-        ModelAndView index = this.controller.index();
+        final ModelAndView index = this.controller.index();
         assertThat(index.getViewName(), is("forward:/home/index.html"));
     }
 
     @Test
     public void home() throws Exception {
-        ResponseEntity<String> response = this.template.getForEntity("http://localhost:8080/", String.class);
+        final ResponseEntity<String> response = this.template.getForEntity("http://localhost:8080/", String.class);
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
         assertTrue(response.getBody().contains("ng-app"));
     }

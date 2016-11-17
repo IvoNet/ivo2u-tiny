@@ -16,7 +16,8 @@
 
 package nl.ivo2u.tiny.controller;
 
-import nl.ivo2u.tiny.model.Tiny;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,37 +28,43 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Iterator;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 /**
  * @author Ivo Woltring
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT )
-public class TinyRestControllerTest {
+public class TinyRestControllerIT {
 
     @Autowired
-    private TestRestTemplate testRestTemplate;
+    private TestRestTemplate client;
 
     @Test
     public void get() throws Exception {
-        final ResponseEntity<Tiny> response = testRestTemplate.getForEntity("http://localhost:8080/W", Tiny.class);
-        System.out.println("response = " + response);
-        System.out.println("response.getBody() = " + response.getBody());
+        final ResponseEntity<String> response = this.client.getForEntity("http://localhost:8080/W", String.class);
         assertThat( response.getStatusCode() , equalTo(HttpStatus.OK));
-
-//   	    ObjectMapper objectMapper = new ObjectMapper();
-//   	    JsonNode responseJson = objectMapper.readTree(response.getBody());
-//
-//   	    assertThat( responseJson.isMissingNode() , is(false) );
-//   	    assertThat( responseJson.toString() , equalTo("[]") );
-
     }
 
     @Test
     public void popular() throws Exception {
+        final ResponseEntity<String> ret = this.client.getForEntity("http://localhost:8080/api/popular", String.class);
+        assertThat( ret.getStatusCode() , equalTo(HttpStatus.OK));
 
+        final ObjectMapper mapper = new ObjectMapper();
+        final JsonNode jsonNode = mapper.readTree(ret.getBody());
+        assertThat(jsonNode.size(), is(5));
+
+        final Iterator<JsonNode> elements = jsonNode.elements();
+        final JsonNode next = elements.next();
+        final long counter = next.findValue("counter")
+                                 .asLong();
+
+        assertThat(counter, is(786L));
     }
 
     @Test
