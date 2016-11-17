@@ -69,6 +69,11 @@ public class TinyRestControllerIT {
 
     @Test
     public void api() throws Exception {
+        ResponseEntity<String> ret = client.postForEntity("http://localhost:8080/api",
+                                                                           "http://ivonet.nl", String.class);
+
+        assertThat( ret.getStatusCode() , equalTo(HttpStatus.OK));
+        assertThat(ret.getBody(), is("http://localhost:8080/W"));
 
     }
 
