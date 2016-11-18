@@ -28,12 +28,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = IllegalArgumentException.class)
-    public String handleIllegalArgumentException(IllegalArgumentException e) {
+    public String handleIllegalArgumentException(final IllegalArgumentException e) {
         return "The Url is just wrong man";
     }
 
     @ExceptionHandler(value = Exception.class)
-    public String handleException(Exception e) {
+    public String handleException(final Exception e) {
         return e.getMessage();
     }
 

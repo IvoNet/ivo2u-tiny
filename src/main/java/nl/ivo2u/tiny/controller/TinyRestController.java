@@ -73,7 +73,7 @@ public class TinyRestController {
         final String url = java.net.URLDecoder.decode(body.endsWith("=") ? body.substring(0, body.length() - 1) : body,
                                                       "UTF-8");
         if (url.isEmpty() || isWrongUrl(url) || url.contains(request.getServerName())) {
-            return "The request was wrong in some way... Please try again.";
+            throw new RuntimeException("The request was wrong in some way... Please try again.");
         }
         return createUrl(url);
     }
@@ -91,7 +91,7 @@ public class TinyRestController {
     }
 
     private String makeUrl(final Long id) {
-        String port = (getCurrentRequest().getServerPort() == 80) ? "" : (":" + getCurrentRequest().getServerPort());
+        final String port = (getCurrentRequest().getServerPort() == 80) ? "" : (":" + getCurrentRequest().getServerPort());
         return "http://" + getCurrentRequest().getServerName() + port + "/" + this.tinyUrl.encode(id);
     }
 
