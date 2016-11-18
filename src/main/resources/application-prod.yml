@@ -1,11 +1,10 @@
 
 logging:
   level:
-    org.springframework.web: WARNING
+    org.springframework.web: INFO
 
 server:
   port: 8080
-  address: ivo2u.nl
 
 spring:
   h2:

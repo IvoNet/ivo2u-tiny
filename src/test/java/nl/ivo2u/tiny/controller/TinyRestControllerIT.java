@@ -55,10 +55,12 @@ public class TinyRestControllerIT {
         final ResponseEntity<String> ret = this.client.getForEntity("http://localhost:8080/api/popular", String.class);
         assertThat( ret.getStatusCode() , equalTo(HttpStatus.OK));
 
+        //The popular section should return 5 items
         final ObjectMapper mapper = new ObjectMapper();
         final JsonNode jsonNode = mapper.readTree(ret.getBody());
         assertThat(jsonNode.size(), is(5));
 
+        //The testdata gives
         final Iterator<JsonNode> elements = jsonNode.elements();
         final JsonNode next = elements.next();
         final long counter = next.findValue("counter")
@@ -69,8 +71,8 @@ public class TinyRestControllerIT {
 
     @Test
     public void api() throws Exception {
-        ResponseEntity<String> ret = client.postForEntity("http://localhost:8080/api",
-                                                                           "http://ivonet.nl", String.class);
+        final ResponseEntity<String> ret = this.client.postForEntity("http://localhost:8080/api",
+                                                                     "http://ivonet.nl", String.class);
 
         assertThat( ret.getStatusCode() , equalTo(HttpStatus.OK));
         assertThat(ret.getBody(), is("http://localhost:8080/W"));
