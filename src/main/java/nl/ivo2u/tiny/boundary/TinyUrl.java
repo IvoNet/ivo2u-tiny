@@ -24,9 +24,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class TinyUrl {
 
-    //    public static final String ALPHABET = "23456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ-_";
-    public static final String ALPHABET = "2Wd5YgtoZVMHviXyPbKLG3r1FqwaunhUDBef8E40zRxpITNlAcSmCQO6jsJk7";
-    public static final int BASE = ALPHABET.length();
+    private static final String ALPHABET = "2Wd5YgtoZVMHviXyPbKLG3r1FqwaunhUDBef8E40zRxpITNlAcSmCQO6jsJk7";
+    private static final int BASE = ALPHABET.length();
 
     public String encode(final long id) {
         long num = id;

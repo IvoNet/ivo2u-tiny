@@ -25,16 +25,19 @@ public class Ivo2uTinyApplication {
 //    @Bean
 //    public EmbeddedServletContainerCustomizer containerCustomizer() {
 //
-//       return (container -> {
+//        return (container -> {
 //            final ErrorPage error204Page = new ErrorPage(HttpStatus.NO_CONTENT, "/error/204.html");
 //            final ErrorPage error403Page = new ErrorPage(HttpStatus.FORBIDDEN, "/error/403.html");
 //            final ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/error/404.html");
+//            final ErrorPage error405Page = new ErrorPage(HttpStatus.METHOD_NOT_ALLOWED, "/error/error.html");
 //            final ErrorPage error406Page = new ErrorPage(HttpStatus.NOT_ACCEPTABLE, "/error/406.html");
 //            final ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/error/error.html");
 //
-//            container.addErrorPages(error204Page, error403Page, error404Page, error406Page, error500Page);
-//       });
+//            container.addErrorPages(error204Page, error403Page, error404Page, error405Page, error406Page, error500Page);
+//        });
 //    }
+
+
 
     public static void main(final String[] args) {
         SpringApplication.run(Ivo2uTinyApplication.class, args);
