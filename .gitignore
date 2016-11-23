@@ -10,5 +10,4 @@ target/
 
 #### IvoNet ###
 db
-
-
+src/main/resources/application-prod.yml
