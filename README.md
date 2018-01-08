@@ -1,5 +1,7 @@
 # Ivo2U Tiny Url app
 
+My attempt to create a bit.ly like app
+
 ## Build
 
 ```bash
