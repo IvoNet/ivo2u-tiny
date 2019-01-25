@@ -79,4 +79,14 @@ public class TinyRestControllerIT {
 
     }
 
+    @Test
+    public void apiPost() throws Exception {
+        final ResponseEntity<String> ret = this.client.postForEntity("http://localhost:8080/api",
+                                                                     "https://www.dropbox.com/s/o2zkhd2zrtqoa9e/2%20Dutch.shortcut?dl=1", String.class);
+
+        assertThat(ret.getStatusCode() , equalTo(HttpStatus.OK));
+        assertThat(ret.getBody(), is("http://localhost:8080/df"));
+
+    }
+
 }

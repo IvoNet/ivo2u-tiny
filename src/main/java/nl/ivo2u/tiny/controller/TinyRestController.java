@@ -26,11 +26,7 @@ import org.apache.commons.validator.UrlValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -39,6 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import static java.net.URLDecoder.decode;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 
@@ -46,15 +43,25 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 @RequestMapping("/api")
 public class TinyRestController {
 
+    private static final String UTF_8 = "UTF-8";
     private final TinyUrl tinyUrl;
     private final TinyRepository tinyRepository;
 
     @Autowired
-    public TinyRestController(final TinyUrl tinyUrl, final TinyRepository tinyRepository) {
+    public TinyRestController(final TinyUrl tinyUrl,
+                              final TinyRepository tinyRepository) {
         this.tinyUrl = tinyUrl;
         this.tinyRepository = tinyRepository;
     }
 
+    private static HttpServletRequest getCurrentRequest() {
+        final RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        Assert.state(requestAttributes != null, "Could not find current request via RequestContextHolder");
+        Assert.isInstanceOf(ServletRequestAttributes.class, requestAttributes);
+        final HttpServletRequest servletRequest = ((ServletRequestAttributes) requestAttributes).getRequest();
+        Assert.state(servletRequest != null, "Could not find current HttpServletRequest");
+        return servletRequest;
+    }
 
     @GetMapping(value = "popular", produces = APPLICATION_JSON_UTF8_VALUE)
     public List<Tiny> popular(final HttpServletRequest request) {
@@ -67,17 +74,18 @@ public class TinyRestController {
     }
 
     @PostMapping(produces = MediaType.TEXT_PLAIN_VALUE)
-    public String api(@RequestBody final String body, final HttpServletRequest request)
-            throws UnsupportedEncodingException {
+    public String api(@RequestBody final String body,
+                      final HttpServletRequest request)
+          throws UnsupportedEncodingException {
 
-        final String url = java.net.URLDecoder.decode(body.endsWith("=") ? body.substring(0, body.length() - 1) : body,
-                                                      "UTF-8");
+        final String url = decode(body.endsWith("=") ? body.substring(0, body.length() - 1) : body, UTF_8)
+              .replace(" ", "%20")
+              .replace("+", "%20");
         if (url.isEmpty() || isWrongUrl(url) || url.contains(request.getServerName())) {
             throw new RuntimeException("The request was wrong in some way... Please try again.");
         }
         return createUrl(url);
     }
-
 
     private String createUrl(final String url) {
         Tiny tiny = this.tinyRepository.readDistinctByUrl(url);
@@ -99,15 +107,6 @@ public class TinyRestController {
         final String[] schemes = {"http", "https"};
         final UrlValidator urlValidator = new UrlValidator(schemes);
         return !urlValidator.isValid(url);
-    }
-
-    private static HttpServletRequest getCurrentRequest() {
-        final RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-        Assert.state(requestAttributes != null, "Could not find current request via RequestContextHolder");
-        Assert.isInstanceOf(ServletRequestAttributes.class, requestAttributes);
-        final HttpServletRequest servletRequest = ((ServletRequestAttributes) requestAttributes).getRequest();
-        Assert.state(servletRequest != null, "Could not find current HttpServletRequest");
-        return servletRequest;
     }
 
 }

@@ -65,4 +65,17 @@ public class TinyHomeControllerTest {
         assertThat(this.response.getRedirectedUrl(), is("http://ivonet.nl"));
     }
 
+    @Test
+    public void getDropbox() throws Exception {
+
+        final Tiny tiny = new Tiny();
+        tiny.setUrl("https://www.dropbox.com/s/o2zkhd2zrtqoa9e/2%20Dutch.shortcut?dl=1");
+        tiny.setId(1L);
+        when(this.tinyUrl.decode("W")).thenReturn(1);
+        when(this.repository.getOne(1L)).thenReturn(tiny);
+
+        this.controller.get("W", this.response);
+        assertThat(this.response.getRedirectedUrl(), is("https://www.dropbox.com/s/o2zkhd2zrtqoa9e/2%20Dutch.shortcut?dl=1"));
+    }
+
 }

@@ -55,4 +55,10 @@ public class TinyUrlTest {
         assertThat(ret, is(2));
     }
 
+    @Test
+    public void dropbox() throws Exception {
+        final int ret = this.tinyUrl.decode("d");
+        assertThat(ret, is(2));
+    }
+
 }
