@@ -33,27 +33,29 @@ import java.util.Iterator;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Ivo Woltring
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT )
+@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 public class TinyRestControllerIT {
 
     @Autowired
     private TestRestTemplate client;
 
     @Test
-    public void get() throws Exception {
+    public void get() {
         final ResponseEntity<String> response = this.client.getForEntity("http://localhost:8080/W", String.class);
-        assertThat( response.getStatusCode() , equalTo(HttpStatus.OK));
+        assertTrue(response.getStatusCode().is3xxRedirection());
     }
 
     @Test
     public void popular() throws Exception {
         final ResponseEntity<String> ret = this.client.getForEntity("http://localhost:8080/api/popular", String.class);
-        assertThat( ret.getStatusCode() , equalTo(HttpStatus.OK));
+        assertThat(ret.getStatusCode(), equalTo(HttpStatus.OK));
 
         //The popular section should return 5 items
         final ObjectMapper mapper = new ObjectMapper();
@@ -70,22 +72,42 @@ public class TinyRestControllerIT {
     }
 
     @Test
-    public void api() throws Exception {
+    public void api() {
         final ResponseEntity<String> ret = this.client.postForEntity("http://localhost:8080/api",
                                                                      "http://ivonet.nl", String.class);
 
-        assertThat( ret.getStatusCode() , equalTo(HttpStatus.OK));
+        assertThat(ret.getStatusCode(), equalTo(HttpStatus.OK));
         assertThat(ret.getBody(), is("http://localhost:8080/W"));
 
     }
 
     @Test
-    public void apiPost() throws Exception {
+    public void api2() {
         final ResponseEntity<String> ret = this.client.postForEntity("http://localhost:8080/api",
-                                                                     "https://www.dropbox.com/s/o2zkhd2zrtqoa9e/2%20Dutch.shortcut?dl=1", String.class);
+                                                                     "https://www.ivonet.nl/2019/02/05/java-ee-8-+-payara-5-+-microprofile-2.1-+-docker-in-about-a-minute/",
+                                                                     String.class);
 
-        assertThat(ret.getStatusCode() , equalTo(HttpStatus.OK));
+        assertThat(ret.getStatusCode(), equalTo(HttpStatus.OK));
         assertThat(ret.getBody(), is("http://localhost:8080/df"));
+        final ResponseEntity<String> response = this.client.getForEntity("http://localhost:8080/df", String.class);
+        assertTrue(response.getStatusCode()
+                           .is3xxRedirection());
+        assertEquals(
+              "https://www.ivonet.nl/2019/02/05/java-ee-8-+-payara-5-+-microprofile-2.1-+-docker-in-about-a-minute/",
+              response.getHeaders()
+                      .getLocation()
+                      .toString());
+
+    }
+
+    @Test
+    public void apiPost() {
+        final ResponseEntity<String> ret = this.client.postForEntity("http://localhost:8080/api",
+                                                                     "https://www.dropbox.com/s/o2zkhd2zrtqoa9e/2%20Dutch.shortcut?dl=1",
+                                                                     String.class);
+
+        assertThat(ret.getStatusCode(), equalTo(HttpStatus.OK));
+        assertThat(ret.getBody(), is("http://localhost:8080/de"));
 
     }
 

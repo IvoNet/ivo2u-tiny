@@ -32,10 +32,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-import static java.net.URLDecoder.decode;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 
@@ -75,16 +73,12 @@ public class TinyRestController {
 
     @PostMapping(produces = MediaType.TEXT_PLAIN_VALUE)
     public String api(@RequestBody final String body,
-                      final HttpServletRequest request)
-          throws UnsupportedEncodingException {
+                      final HttpServletRequest request) {
 
-        final String url = decode(body.endsWith("=") ? body.substring(0, body.length() - 1) : body, UTF_8)
-              .replace(" ", "%20")
-              .replace("+", "%20");
-        if (url.isEmpty() || isWrongUrl(url) || url.contains(request.getServerName())) {
+        if (body.isEmpty() || isWrongUrl(body) || body.contains(request.getServerName())) {
             throw new RuntimeException("The request was wrong in some way... Please try again.");
         }
-        return createUrl(url);
+        return createUrl(body);
     }
 
     private String createUrl(final String url) {

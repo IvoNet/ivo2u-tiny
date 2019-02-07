@@ -47,13 +47,13 @@ public class TinyHomeControllerTest {
     private TinyRepository repository;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         this.response = new MockHttpServletResponse();
     }
 
     @Test
-    public void get() throws Exception {
+    public void get() {
 
         final Tiny tiny = new Tiny();
         tiny.setUrl("http://ivonet.nl");
@@ -66,7 +66,7 @@ public class TinyHomeControllerTest {
     }
 
     @Test
-    public void getDropbox() throws Exception {
+    public void getDropbox() {
 
         final Tiny tiny = new Tiny();
         tiny.setUrl("https://www.dropbox.com/s/o2zkhd2zrtqoa9e/2%20Dutch.shortcut?dl=1");
@@ -76,6 +76,19 @@ public class TinyHomeControllerTest {
 
         this.controller.get("W", this.response);
         assertThat(this.response.getRedirectedUrl(), is("https://www.dropbox.com/s/o2zkhd2zrtqoa9e/2%20Dutch.shortcut?dl=1"));
+    }
+
+   @Test
+    public void getUrlWithPlusses() {
+
+        final Tiny tiny = new Tiny();
+        tiny.setUrl("https://www.ivonet.nl/2019/02/05/java-ee-8-+-payara-5-+-microprofile-2.1-+-docker-in-about-a-minute/");
+        tiny.setId(1L);
+        when(this.tinyUrl.decode("W")).thenReturn(1);
+        when(this.repository.getOne(1L)).thenReturn(tiny);
+
+        this.controller.get("W", this.response);
+        assertThat(this.response.getRedirectedUrl(), is("https://www.ivonet.nl/2019/02/05/java-ee-8-+-payara-5-+-microprofile-2.1-+-docker-in-about-a-minute/"));
     }
 
 }
