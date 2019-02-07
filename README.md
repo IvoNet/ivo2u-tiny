@@ -29,5 +29,13 @@ docker push ivonet/arm32v6-tiny:<version>
 ### command for NAS
 
 ```bash
-sudo docker run -d --name ivo2u-tiny --restart always -p 32773:8080 -v /volume1/docker:/config:rw ivonet/tiny:1.1.0
+sudo docker run -d --name ivo2u-tiny --restart always -p 32773:8080 -v /volume1/docker:/config:rw ivonet/tiny:1.2.0
+```
+
+
+### API call examples
+
+```bash
+curl -X POST -L -H "Content-Type: text/plain" --data "https://www.ivonet.nl/2019/02/05/java-ee-8-+-payara-5-+-microprofile-2.1-+-docker-in-about-a-minute/" http://localhost:8080/api
+curl -X POST -L -H "Content-Type: text/plain" --data "https://www.ivonet.nl/2019/02/05/java-ee-8-+-payara-5-+-microprofile-2.1-+-docker-in-about-a-minute/" https://ivo2u.nl/api
 ```

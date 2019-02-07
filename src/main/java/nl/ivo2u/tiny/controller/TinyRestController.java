@@ -17,6 +17,7 @@
 package nl.ivo2u.tiny.controller;
 
 
+import lombok.extern.slf4j.Slf4j;
 import nl.ivo2u.tiny.boundary.TinyUrl;
 import nl.ivo2u.tiny.model.Tiny;
 import nl.ivo2u.tiny.model.Token;
@@ -37,6 +38,7 @@ import java.util.List;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 
+@Slf4j
 @RestController
 @RequestMapping("/api")
 public class TinyRestController {
@@ -75,8 +77,16 @@ public class TinyRestController {
     public String api(@RequestBody final String body,
                       final HttpServletRequest request) {
 
-        if (body.isEmpty() || isWrongUrl(body) || body.contains(request.getServerName())) {
-            throw new RuntimeException("The request was wrong in some way... Please try again.");
+        log.debug(body);
+
+        if (body.isEmpty()) {
+            throw new RuntimeException("You should provide a url");
+        }
+        if (isWrongUrl(body)) {
+            throw new RuntimeException("The url seems to be invalid");
+        }
+        if (body.contains(request.getServerName())) {
+            throw new RuntimeException("The url can not be of the ivo2u domain itself.");
         }
         return createUrl(body);
     }
@@ -88,7 +98,6 @@ public class TinyRestController {
             tiny.setUrl(url);
             this.tinyRepository.saveAndFlush(tiny);
         }
-
         return makeUrl(tiny.getId());
     }
 

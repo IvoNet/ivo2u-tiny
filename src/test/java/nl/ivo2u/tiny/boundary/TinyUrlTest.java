@@ -16,12 +16,14 @@
 
 package nl.ivo2u.tiny.boundary;
 
+import org.apache.commons.validator.UrlValidator;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Ivo Woltring
@@ -49,6 +51,7 @@ public class TinyUrlTest {
         final String encode = this.tinyUrl.encode(1);
         assertThat(encode, is("W"));
     }
+
     @Test
     public void d() throws Exception {
         final int ret = this.tinyUrl.decode("d");
@@ -61,4 +64,10 @@ public class TinyUrlTest {
         assertThat(ret, is(2));
     }
 
+    @Test
+    public void name() {
+        final String[] schemes = {"http", "https"};
+        final UrlValidator urlValidator = new UrlValidator(schemes);
+        assertTrue(urlValidator.isValid("https://www.ivonet.nl/2019/02/05/java-ee-8-+-payara-5-+-microprofile-2.1-+-docker-in-about-a-minute/"));
+    }
 }
