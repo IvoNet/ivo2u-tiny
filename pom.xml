@@ -5,7 +5,7 @@
 
     <groupId>nl.ivo2u</groupId>
     <artifactId>ivo2u-tiny</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>1.2.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>ivo2u-tiny</name>
