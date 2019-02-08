@@ -47,4 +47,8 @@ public class Tokens implements Iterable<Token> {
     public Iterator<Token> iterator() {
         return this.tokens.iterator();
     }
+
+    public int size() {
+        return this.tokens.size();
+    }
 }

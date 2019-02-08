@@ -383,6 +383,7 @@
                     method: "GET",
                     headers: {'Accept': 'application/json'}
                 }).success(function (data, status, headers, config) {
+                    console.log(data)
                     vm.data = data;
                 }).error(function (data, status, headers, config) {
                     vm.data = status;

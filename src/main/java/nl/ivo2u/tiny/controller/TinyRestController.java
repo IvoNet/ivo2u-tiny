@@ -34,6 +34,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
@@ -64,13 +65,13 @@ public class TinyRestController {
     }
 
     @GetMapping(value = "popular", produces = APPLICATION_JSON_UTF8_VALUE)
-    public List<Tiny> popular(final HttpServletRequest request) {
+    public Tokens popular(final HttpServletRequest request) {
         final List<Tiny> resultList = this.tinyRepository.findTop5ByOrderByCounterDesc();
-        final Tokens tokens = new Tokens();
-        resultList.stream()
-                  .map(p -> new Token(request.getRequestURI() + "/" + this.tinyUrl.encode(p.getId()), p))
-                  .forEach(tokens::add);
-        return resultList;
+//        final Tokens tokens = new Tokens();
+        return  resultList.stream()
+                  .map(p -> new Token("http://ivo2u.nl/" + this.tinyUrl.encode(p.getId()), p))
+                  .collect(Tokens::new, (tokens, token) -> tokens.add(token), (tokens, tokens2) -> );
+//        return tokens;
     }
 
     @PostMapping(produces = MediaType.TEXT_PLAIN_VALUE)

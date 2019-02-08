@@ -16,8 +16,7 @@
 
 package nl.ivo2u.tiny.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import nl.ivo2u.tiny.model.Tokens;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +26,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Iterator;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -54,21 +51,12 @@ public class TinyRestControllerIT {
 
     @Test
     public void popular() throws Exception {
-        final ResponseEntity<String> ret = this.client.getForEntity("http://localhost:8080/api/popular", String.class);
+        final ResponseEntity<Tokens> ret = this.client.getForEntity("http://localhost:8080/api/popular", Tokens.class);
         assertThat(ret.getStatusCode(), equalTo(HttpStatus.OK));
 
-        //The popular section should return 5 items
-        final ObjectMapper mapper = new ObjectMapper();
-        final JsonNode jsonNode = mapper.readTree(ret.getBody());
-        assertThat(jsonNode.size(), is(5));
+        final Tokens tokens = ret.getBody();
+        assertThat(tokens.size(), is(5));
 
-        //The testdata gives
-        final Iterator<JsonNode> elements = jsonNode.elements();
-        final JsonNode next = elements.next();
-        final long counter = next.findValue("counter")
-                                 .asLong();
-
-        assertThat(counter, is(786L));
     }
 
     @Test
