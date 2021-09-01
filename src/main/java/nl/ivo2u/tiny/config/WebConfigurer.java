@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Ivo Woltring <WebMaster@ivonet.nl>
+ * Copyright 2021 Ivo Woltring <WebMaster@ivonet.nl>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ public class WebConfigurer extends WebMvcConfigurerAdapter {
 
     @Override
     public void addViewControllers(final ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("forward:/index.html");
+        registry.addViewController("/")
+                .setViewName("forward:/index.html");
     }
 }

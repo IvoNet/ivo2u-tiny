@@ -9,5 +9,6 @@ target/
 
 
 #### IvoNet ###
-db
+/db
+.tmp
 src/main/resources/application-prod.yml

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Ivo Woltring <WebMaster@ivonet.nl>
+ * Copyright 2021 Ivo Woltring <WebMaster@ivonet.nl>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,7 @@
 
 package nl.ivo2u.tiny.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Calendar;
@@ -48,7 +40,7 @@ public class Tiny {
     private Long counter = 0L;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="creation_date", updatable=false, nullable = false)
+    @Column(name = "creation_date", updatable = false, nullable = false)
     private Date creationDate;
 
 
@@ -88,14 +80,14 @@ public class Tiny {
     public String toString() {
         final StringBuilder sb = new StringBuilder("Tiny{");
         sb.append("id=")
-          .append(id);
+          .append(this.id);
         sb.append(", url='")
-          .append(url)
+          .append(this.url)
           .append('\'');
         sb.append(", counter=")
-          .append(counter);
+          .append(this.counter);
         sb.append(", creationDate=")
-          .append(creationDate);
+          .append(this.creationDate);
         sb.append('}');
         return sb.toString();
     }

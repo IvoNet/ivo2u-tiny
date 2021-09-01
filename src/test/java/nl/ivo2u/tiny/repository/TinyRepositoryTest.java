@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Ivo Woltring <WebMaster@ivonet.nl>
+ * Copyright 2021 Ivo Woltring <WebMaster@ivonet.nl>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,7 +61,7 @@ public class TinyRepositoryTest {
         final Tiny tiny = new Tiny();
         tiny.setUrl(HTTP_IVO_WAS_HERE_YUP);
         assertNull(tiny.getId());
-        Tiny ret = this.repository.saveAndFlush(tiny);
+        final Tiny ret = this.repository.saveAndFlush(tiny);
         assertNotNull(ret.getId());
 
         final Tiny one = this.repository.getOne(ret.getId());
@@ -75,7 +75,8 @@ public class TinyRepositoryTest {
     public void top5() throws Exception {
         final List<Tiny> tinies = this.repository.findTop5ByOrderByCounterDesc();
         assertThat(tinies.size(), is(5));
-        assertThat(tinies.get(0).getId(), is(98L));
+        assertThat(tinies.get(0)
+                         .getId(), is(98L));
     }
 
     @Test
@@ -89,7 +90,7 @@ public class TinyRepositoryTest {
 
     @Test
     public void maxId() throws Exception {
-        Long maxId = repository.getMaxId();
+        final Long maxId = this.repository.getMaxId();
         assertThat(maxId, is(155L));
     }
 }

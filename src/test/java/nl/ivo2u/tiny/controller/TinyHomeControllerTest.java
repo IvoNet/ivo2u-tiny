@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Ivo Woltring <WebMaster@ivonet.nl>
+ * Copyright 2021 Ivo Woltring <WebMaster@ivonet.nl>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,20 +75,23 @@ public class TinyHomeControllerTest {
         when(this.repository.getOne(1L)).thenReturn(tiny);
 
         this.controller.get("W", this.response);
-        assertThat(this.response.getRedirectedUrl(), is("https://www.dropbox.com/s/o2zkhd2zrtqoa9e/2%20Dutch.shortcut?dl=1"));
+        assertThat(this.response.getRedirectedUrl(),
+                   is("https://www.dropbox.com/s/o2zkhd2zrtqoa9e/2%20Dutch.shortcut?dl=1"));
     }
 
-   @Test
+    @Test
     public void getUrlWithPlusses() {
 
         final Tiny tiny = new Tiny();
-        tiny.setUrl("https://www.ivonet.nl/2019/02/05/java-ee-8-+-payara-5-+-microprofile-2.1-+-docker-in-about-a-minute/");
+        tiny.setUrl(
+              "https://www.ivonet.nl/2019/02/05/java-ee-8-+-payara-5-+-microprofile-2.1-+-docker-in-about-a-minute/");
         tiny.setId(1L);
         when(this.tinyUrl.decode("W")).thenReturn(1);
         when(this.repository.getOne(1L)).thenReturn(tiny);
 
         this.controller.get("W", this.response);
-        assertThat(this.response.getRedirectedUrl(), is("https://www.ivonet.nl/2019/02/05/java-ee-8-+-payara-5-+-microprofile-2.1-+-docker-in-about-a-minute/"));
+        assertThat(this.response.getRedirectedUrl(),
+                   is("https://www.ivonet.nl/2019/02/05/java-ee-8-+-payara-5-+-microprofile-2.1-+-docker-in-about-a-minute/"));
     }
 
 }

@@ -32,7 +32,6 @@ docker push ivonet/arm32v6-tiny:<version>
 sudo docker run -d --name ivo2u-tiny --restart always -p 32773:8080 -v /volume1/docker:/config:rw ivonet/tiny:1.2.0
 ```
 
-
 ### API call examples
 
 ```bash

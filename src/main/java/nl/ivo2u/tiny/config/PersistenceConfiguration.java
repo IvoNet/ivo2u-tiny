@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Ivo Woltring <WebMaster@ivonet.nl>
+ * Copyright 2021 Ivo Woltring <WebMaster@ivonet.nl>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,22 +40,24 @@ public class PersistenceConfiguration {
     @ConfigurationProperties(prefix = "spring.datasource")
     @Primary
     public DataSource dataSource() {
-        return DataSourceBuilder.create().build();
+        return DataSourceBuilder.create()
+                                .build();
     }
 
     @Bean
     @ConfigurationProperties(prefix = "datasource.flyway")
     @FlywayDataSource
     public DataSource flywayDataSource() {
-        return DataSourceBuilder.create().build();
+        return DataSourceBuilder.create()
+                                .build();
     }
 
     @Bean
-   	public JpaVendorAdapter jpaVendorAdapter() {
-   		final HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
-   		hibernateJpaVendorAdapter.setShowSql(true);
-   		hibernateJpaVendorAdapter.setGenerateDdl(true);
-   		hibernateJpaVendorAdapter.setDatabase(Database.H2);
-   		return hibernateJpaVendorAdapter;
-   	}
+    public JpaVendorAdapter jpaVendorAdapter() {
+        final HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
+        hibernateJpaVendorAdapter.setShowSql(true);
+        hibernateJpaVendorAdapter.setGenerateDdl(true);
+        hibernateJpaVendorAdapter.setDatabase(Database.H2);
+        return hibernateJpaVendorAdapter;
+    }
 }

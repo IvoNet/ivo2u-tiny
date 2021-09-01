@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Ivo Woltring <WebMaster@ivonet.nl>
+ * Copyright 2021 Ivo Woltring <WebMaster@ivonet.nl>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,7 +52,8 @@ public class TinyHomeController {
     }
 
     @GetMapping("{id}")
-    public void get(@PathVariable("id") final String token, final HttpServletResponse response) {
+    public void get(@PathVariable("id") final String token,
+                    final HttpServletResponse response) {
         final Tiny tiny = this.tinyRepository.getOne((long) this.tinyUrl.decode(token));
         this.tinyRepository.updateCounter(tiny.getId());
         try {

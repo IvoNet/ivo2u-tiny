@@ -1,3 +1,19 @@
+<!--
+  ~ Copyright 2021 Ivo Woltring <WebMaster@ivonet.nl>
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
 <!DOCTYPE html>
 <html data-ng-app="Tiny">
 <head>
@@ -379,7 +395,7 @@
                 $http({
                     url: 'http://ivo2u.nl/popular',
                     method: "GET",
-                    headers: {'Accept': 'application/json'}
+                    headers: { 'Accept': 'application/json' }
                 }).success(function (data, status, headers, config) {
                     vm.data = data;
                 }).error(function (data, status, headers, config) {
@@ -413,6 +429,7 @@
         TinyController.$inject = [
             '$http'
         ];
+
         function TinyController($http) {
             var vm = this;
             vm.url = "";
@@ -428,7 +445,7 @@
                     url: 'http://ivo2u.nl/api/',
                     method: "POST",
                     data: vm.url,
-                    headers: {'Content-Type': 'text/plain', 'Accept': 'text/plain'}
+                    headers: { 'Content-Type': 'text/plain', 'Accept': 'text/plain' }
                 }).success(function (data, status, headers, config) {
                     vm.data = data;
                     vm.url = "";
@@ -457,11 +474,9 @@
 
                 if (/iPhone|iPad/i.test(navigator.userAgent)) {
                     actionMsg = 'No support :(';
-                }
-                else if (/Mac/i.test(navigator.userAgent)) {
+                } else if (/Mac/i.test(navigator.userAgent)) {
                     actionMsg = 'Press cmd-' + actionKey + ' to ' + action;
-                }
-                else {
+                } else {
                     actionMsg = 'Press Ctrl-' + actionKey + ' to ' + action;
                 }
                 return actionMsg;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Ivo Woltring <WebMaster@ivonet.nl>
+ * Copyright 2021 Ivo Woltring <WebMaster@ivonet.nl>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,4 +25,5 @@ public class Ivo2uTinyApplication {
     public static void main(final String[] args) {
         SpringApplication.run(Ivo2uTinyApplication.class, args);
     }
+
 }

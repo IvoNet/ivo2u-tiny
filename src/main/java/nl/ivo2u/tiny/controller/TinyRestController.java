@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Ivo Woltring <WebMaster@ivonet.nl>
+ * Copyright 2021 Ivo Woltring <WebMaster@ivonet.nl>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,23 +20,20 @@ package nl.ivo2u.tiny.controller;
 import lombok.extern.slf4j.Slf4j;
 import nl.ivo2u.tiny.boundary.TinyUrl;
 import nl.ivo2u.tiny.model.Tiny;
-import nl.ivo2u.tiny.model.Token;
-import nl.ivo2u.tiny.model.Tokens;
 import nl.ivo2u.tiny.repository.TinyRepository;
 import org.apache.commons.validator.UrlValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 
 @Slf4j
@@ -64,19 +61,20 @@ public class TinyRestController {
         return servletRequest;
     }
 
-    @GetMapping(value = "popular", produces = APPLICATION_JSON_UTF8_VALUE)
-    public Tokens popular(final HttpServletRequest request) {
-        final List<Tiny> resultList = this.tinyRepository.findTop5ByOrderByCounterDesc();
-//        final Tokens tokens = new Tokens();
-        return  resultList.stream()
-                  .map(p -> new Token("http://ivo2u.nl/" + this.tinyUrl.encode(p.getId()), p))
-                  .collect(Tokens::new, (tokens, token) -> tokens.add(token), (tokens, tokens2) -> );
-//        return tokens;
-    }
+//    @GetMapping(value = "popular", produces = APPLICATION_JSON_UTF8_VALUE)
+//    public Tokens popular(final HttpServletRequest request) {
+//        final List<Tiny> resultList = this.tinyRepository.findTop5ByOrderByCounterDesc();
+////        final Tokens tokens = new Tokens();
+//        return  resultList.stream()
+//                  .map(p -> new Token("http://ivo2u.nl/" + this.tinyUrl.encode(p.getId()), p))
+//                  .collect(Tokens::new, (tokens, token) -> tokens.add(token), (tokens, tokens2) -> );
+////        return tokens;
+//    }
 
     @PostMapping(produces = MediaType.TEXT_PLAIN_VALUE)
     public String api(@RequestBody final String body,
                       final HttpServletRequest request) {
+
 
         log.debug(body);
 

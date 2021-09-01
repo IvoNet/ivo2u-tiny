@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Ivo Woltring <WebMaster@ivonet.nl>
+ * Copyright 2021 Ivo Woltring <WebMaster@ivonet.nl>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,6 +68,13 @@ public class TinyUrlTest {
     public void name() {
         final String[] schemes = {"http", "https"};
         final UrlValidator urlValidator = new UrlValidator(schemes);
-        assertTrue(urlValidator.isValid("https://www.ivonet.nl/2019/02/05/java-ee-8-+-payara-5-+-microprofile-2.1-+-docker-in-about-a-minute/"));
+        assertTrue(urlValidator.isValid(
+              "https://www.ivonet.nl/2019/02/05/java-ee-8-+-payara-5-+-microprofile-2.1-+-docker-in-about-a-minute/"));
+    }
+
+    @Test
+    public void foo() {
+        final String encode = this.tinyUrl.encode(471);
+        System.out.println("encode = " + encode);
     }
 }
